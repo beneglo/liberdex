@@ -1,0 +1,40 @@
+name: Bug
+description: Something does not do what the docs say.
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `liberdex --version`, or the commit hash.
+    validations:
+      required: true
+  - type: dropdown
+    id: how
+    attributes:
+      label: How liberdex was started
+      options:
+        - liberdex serve
+        - liberdex mcp inside an agent CLI
+        - Python library
+        - Container
+    validations:
+      required: true
+  - type: input
+    id: planner
+    attributes:
+      label: Planner
+      description: The model or CLI that wrote the plan, if you know it (the settings drawer or `LIBERDEX_PLANNER_MODEL`).
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: The query, what you expected, what you got. Paste the exact error line if there was one.
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Log
+      description: Relevant lines from the terminal. Do not paste API keys.
+      render: text

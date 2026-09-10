@@ -1,0 +1,12 @@
+{
+  "name": "liberdex",
+  "version": "0.1.0",
+  "description": "Index-free web search: you write the plan, liberdex fetches, reads and ranks the pages. Full-page passages, no API key.",
+  "author": {"name": "liberdex", "url": "https://liberdex.net"},
+  "homepage": "https://liberdex.net",
+  "repository": "https://github.com/beneglo/liberdex",
+  "license": "AGPL-3.0-or-later",
+  "keywords": ["search", "web", "mcp", "research"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}

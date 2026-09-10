@@ -1,0 +1,14 @@
+{
+  "name": "liberdex",
+  "owner": {"name": "liberdex", "url": "https://liberdex.net"},
+  "metadata": {"description": "liberdex: index-free web search for agents"},
+  "plugins": [
+    {
+      "name": "liberdex",
+      "source": "./",
+      "description": "Index-free web search: you write the plan, liberdex fetches, reads and ranks the pages.",
+      "version": "0.1.0",
+      "category": "search"
+    }
+  ]
+}

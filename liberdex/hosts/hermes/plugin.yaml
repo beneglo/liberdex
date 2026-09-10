@@ -1,0 +1,7 @@
+name: web-liberdex
+version: 0.1.0
+description: "liberdex, index-free web search with full-page passages; hermes's own model writes the plan, so no key."
+author: liberdex
+kind: backend
+provides_web_providers:
+  - liberdex

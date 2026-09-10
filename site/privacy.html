@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy: liberdex</title>
+<meta name="description" content="What liberdex.net and the liberdex software know about you.">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="https://liberdex.net/privacy">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="site.css">
+<script>
+try { var t = localStorage.getItem("liberdex.theme");
+  if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="ringGrad" x1="22" y1="12" x2="60" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="var(--mark-ring-a)"/>
+      <stop offset="1" stop-color="var(--mark-ring-b)"/>
+    </linearGradient>
+    <clipPath id="lensClip"><circle cx="40" cy="32" r="12.5"/></clipPath>
+    <symbol id="mark" viewBox="0 0 64 64">
+      <g fill="none" stroke="var(--mark-line)" stroke-width="5.5" stroke-linecap="round">
+        <path d="M7 25H40"/><path d="M7 32H46"/><path d="M7 39H36"/>
+      </g>
+      <g clip-path="url(#lensClip)" fill="none" stroke="var(--mark-lit)" stroke-width="5.5" stroke-linecap="round">
+        <path d="M7 25H40"/><path d="M7 32H46"/><path d="M7 39H36"/>
+      </g>
+      <circle cx="40" cy="32" r="15.5" fill="none" stroke="url(#ringGrad)" stroke-width="6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="lockup" href="./" aria-label="liberdex">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><use href="#mark"/></svg>
+      <span class="wordmark">LIBERDEX</span>
+    </a>
+    <nav class="nav" id="menu" aria-label="Sections">
+      <a href="./">home</a>
+      <a href="privacy">privacy</a>
+      <a href="terms">terms</a>
+      <a href="imprint">imprint</a>
+      <a href="https://github.com/beneglo/liberdex">github</a>
+    </nav>
+    <button type="button" class="tool menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="menu">menu</button>
+    <button type="button" class="tool" id="theme">dark</button>
+  </div>
+</header>
+
+<main class="legal">
+  <div class="wrap">
+    <h1>Privacy</h1>
+    <p class="lede">The site knows nothing about you, and the software runs on your machine.</p>
+
+    <h2>This site</h2>
+    <p>liberdex.net is static HTML served by GitHub Pages. It sets no cookies, loads nothing from third parties, runs no analytics, and the font is self-hosted. Your light or dark choice is kept in your browser's local storage and goes nowhere. GitHub, as the host, sees the requests it serves; its own <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a> covers that. The site is run by the operator named in the <a href="imprint">imprint</a>; for access, deletion or a complaint to a supervisory authority (Art. 15 to 21 and 77 GDPR), write to the address there.</p>
+
+    <h2>The software</h2>
+    <p>liberdex runs on the machine you install it on and sends no telemetry. A search goes to the model provider you configured for planning and to the sites the plan named, under your keys and your terms with them. Keys stay in <code>~/.config/liberdex/env</code>.</p>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <nav aria-label="Elsewhere">
+      <a href="https://github.com/beneglo/liberdex">github</a>
+      <a href="https://github.com/beneglo/liberdex/tree/main/docs">docs</a>
+      <a href="https://github.com/beneglo/liberdex/blob/main/docs/llms.txt">llms.txt</a>
+      <a href="https://github.com/beneglo/liberdex/blob/main/CONTRIBUTING.md">contributing</a>
+      <a href="privacy">privacy</a>
+      <a href="terms">terms</a>
+      <a href="imprint">imprint</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

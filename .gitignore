@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+
+# Local agent settings
+.claude/settings.local.json
+
+# The operator's deployment checklist, written per machine, never published
+plan.md
+
+# docs/agents.md is part of the docs; a global ignore of AGENTS.md must not eat it
+!docs/agents.md

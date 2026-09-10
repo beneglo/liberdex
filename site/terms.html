@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terms: liberdex</title>
+<meta name="description" content="Licence of the liberdex software and terms of the shared plan cache.">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="https://liberdex.net/terms">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="site.css">
+<script>
+try { var t = localStorage.getItem("liberdex.theme");
+  if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="ringGrad" x1="22" y1="12" x2="60" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="var(--mark-ring-a)"/>
+      <stop offset="1" stop-color="var(--mark-ring-b)"/>
+    </linearGradient>
+    <clipPath id="lensClip"><circle cx="40" cy="32" r="12.5"/></clipPath>
+    <symbol id="mark" viewBox="0 0 64 64">
+      <g fill="none" stroke="var(--mark-line)" stroke-width="5.5" stroke-linecap="round">
+        <path d="M7 25H40"/><path d="M7 32H46"/><path d="M7 39H36"/>
+      </g>
+      <g clip-path="url(#lensClip)" fill="none" stroke="var(--mark-lit)" stroke-width="5.5" stroke-linecap="round">
+        <path d="M7 25H40"/><path d="M7 32H46"/><path d="M7 39H36"/>
+      </g>
+      <circle cx="40" cy="32" r="15.5" fill="none" stroke="url(#ringGrad)" stroke-width="6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="lockup" href="./" aria-label="liberdex">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><use href="#mark"/></svg>
+      <span class="wordmark">LIBERDEX</span>
+    </a>
+    <nav class="nav" id="menu" aria-label="Sections">
+      <a href="./">home</a>
+      <a href="privacy">privacy</a>
+      <a href="terms">terms</a>
+      <a href="imprint">imprint</a>
+      <a href="https://github.com/beneglo/liberdex">github</a>
+    </nav>
+    <button type="button" class="tool menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="menu">menu</button>
+    <button type="button" class="tool" id="theme">dark</button>
+  </div>
+</header>
+
+<main class="legal">
+  <div class="wrap">
+    <h1>Terms</h1>
+    <p class="lede">The software is licensed. The shared plan cache is free of charge and as is.</p>
+
+    <h2>The software</h2>
+    <p>liberdex is free software under the GNU Affero General Public License v3.0 or later. Run it, study it, change it, share it; if you change it and offer it over a network, offer the source too. Calling a liberdex server over HTTP does not make your program a derivative work. Commercial licences for embedding are available on request through the <a href="imprint">imprint</a>. The licence text is in the <a href="https://github.com/beneglo/liberdex/blob/main/LICENSE">repository</a> and is the whole agreement for the software; nothing here narrows it.</p>
+    <p>Running liberdex makes you the operator of every request it sends. Check the terms of anything you fetch at volume, respect rate limits, and do not redistribute fetched pages without checking that you may. See <a href="https://github.com/beneglo/liberdex#responsible-use">responsible use</a>.</p>
+
+    <h2>The shared plan cache</h2>
+    <p>The shared plan cache (the "commons") is a service the operator named in the <a href="imprint">imprint</a> runs at <code>commons.liberdex.net</code> for use through the liberdex software.</p>
+    <p><strong>What it is.</strong> The cache stores and serves search plans: lists of web addresses and per-site queries that may hold the answer to a question. It does not store or serve web content. A plan is a suggestion of where to look; the sites it names are third parties, and their content is theirs.</p>
+    <p><strong>No warranty.</strong> The service is provided as is and as available, without warranty of any kind, express or implied, including fitness for a particular purpose, accuracy, availability, or non-infringement. Plans may be wrong, stale, or missing. Nothing it serves is checked by anyone. The service may change, rate-limit, or stop at any time without notice.</p>
+    <p><strong>Liability.</strong> To the extent permitted by law, the operator is not liable for any damage arising from the use of or inability to use the service. Where liability cannot be excluded, it is limited to intent and gross negligence; liability for injury to life, body or health, and under mandatory product liability law, is not limited by these terms.</p>
+    <p><strong>Your use.</strong> You may use the service through liberdex or software of your own that speaks its API, within the published rate limits. You may not use it to attack, overload, or probe the service, to plant addresses in shared plans, or to submit content you have no right to submit. Keys may be revoked without notice.</p>
+    <p><strong>Contributions.</strong> Plans your software offers to the cache, and reports about them, are contributed free of charge and may be stored, merged with others', served to any user of the service, and deleted at any time. You keep whatever rights you have in them; you grant the operator a perpetual, worldwide, royalty-free licence to use them for the service and its successors.</p>
+    <p><strong>Law.</strong> These terms are governed by the law of the operator's seat, with the exclusion of the UN Convention on Contracts for the International Sale of Goods. Mandatory consumer protection law of your place of residence is unaffected.</p>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <nav aria-label="Elsewhere">
+      <a href="https://github.com/beneglo/liberdex">github</a>
+      <a href="https://github.com/beneglo/liberdex/tree/main/docs">docs</a>
+      <a href="https://github.com/beneglo/liberdex/blob/main/docs/llms.txt">llms.txt</a>
+      <a href="https://github.com/beneglo/liberdex/blob/main/CONTRIBUTING.md">contributing</a>
+      <a href="privacy">privacy</a>
+      <a href="terms">terms</a>
+      <a href="imprint">imprint</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# liberdex
+
+> An index-free web search engine. An LLM names where the answer lives; liberdex fetches, reads and ranks those pages. Runs on your machine, in your agent CLI, or as an endpoint.
+
+## Docs
+
+- [Inside an agent CLI](agents.md): install into Claude Code, Codex, OpenCode, Cursor, Gemini CLI, hermes-agent, OpenClaw, T3 Code; the host writes the plan
+- [The search page](search-engine.md): `liberdex serve`, settings, subscriptions, deep, OpenSearch
+- [Running it for other programs](deploy.md): keys, CORS, in-flight cap, Docker, the Python client, MCP connector
+- [The HTTP API](http.md): `/search`, streaming, typed answers, reweighting, `/extract`, `/plan`
+- [Models](models.md): planner and answer roles, the eighteen profiles, `models.toml`, thinking budgets
+- [Command line and library](library.md)
+
+## Skill
+
+- [SKILL.md](../skills/liberdex/SKILL.md): how an agent writes a plan and calls the tools
+- [The plan, in full](../skills/liberdex/references/plan-protocol.md): fields, intents, routes, example plans

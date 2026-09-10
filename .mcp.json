@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "liberdex": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/beneglo/liberdex", "liberdex", "mcp"]
+    }
+  }
+}

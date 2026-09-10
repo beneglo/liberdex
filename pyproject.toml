@@ -1,0 +1,96 @@
+[project]
+name = "liberdex"
+version = "0.1.0"
+description = "An index-free web search engine: an LLM recalls where the answer lives, liberdex fetches and ranks it."
+readme = "README.md"
+license = "AGPL-3.0-or-later AND OFL-1.1"
+license-files = ["LICENSE", "liberdex/web/static/fonts/OFL.txt"]
+classifiers = [
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
+]
+requires-python = ">=3.12"
+dependencies = [
+    "bm25s[core]>=0.3.11",
+    "curl-cffi>=0.16.2",
+    "fastapi>=0.141.1",
+    "flashrank>=0.2.10",
+    "httpx[brotli,http2]>=0.28.1",
+    "mcp>=2.1.1",
+    "model2vec>=0.9.0",
+    "numpy>=2.5.2",
+    "orjson>=3.12.0",
+    "pypdfium2>=5.13.0",
+    "selectolax>=0.4.11",
+    "trafilatura>=2.2.0",
+    "uvicorn[standard]>=0.52.4",
+]
+
+[project.urls]
+Homepage = "https://liberdex.net"
+Repository = "https://github.com/beneglo/liberdex"
+Documentation = "https://github.com/beneglo/liberdex/tree/main/docs"
+Changelog = "https://github.com/beneglo/liberdex/releases"
+
+[project.optional-dependencies]
+# Both are imported lazily, inside the code that needs them, so the cold-start
+# cost falls only on the user who opted in.
+# Retry-on-validation-failure for caller-supplied JSON Schema extraction.
+schema = ["instructor>=1.16"]
+# Exact token budgets. Without it the four-characters-per-token estimate is
+# used, which is wrong by a few percent and never by a factor.
+tokens = ["tiktoken>=0.14"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "ruff>=0.14",
+    "tiktoken>=0.14.0",
+]
+
+[project.scripts]
+liberdex = "liberdex.cli:main"
+
+# hermes-agent finds its web search backends here; see liberdex/hosts/hermes.
+[project.entry-points."hermes_agent.plugins"]
+liberdex = "liberdex.hosts.hermes:register"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["liberdex"]
+
+# The skill is authored at the repository root, where the Claude Code plugin
+# and every other host expects it, and rides inside the wheel so that
+# `liberdex install` can copy it from an installed package.
+[tool.hatch.build.targets.wheel.force-include]
+"skills" = "liberdex/skills"
+
+# The source distribution is the package, its tests and docs; the website,
+# the CI and the agent-host manifests stay in the repository.
+[tool.hatch.build.targets.sdist]
+exclude = ["site/", ".github/", ".claude-plugin/", ".mcp.json", "uv.lock", ".python-version"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = [".", "tests"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "W", "I"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["liberdex"]
+
+[tool.ruff.lint.per-file-ignores]
+# Logging is quietened before the imports on purpose.
+"liberdex/__init__.py" = ["E402"]
+"tests/*" = ["E741"]

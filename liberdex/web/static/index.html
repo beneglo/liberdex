@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>liberdex</title>
+<meta name="description" content="Index-free web search, running on this machine.">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="search" type="application/opensearchdescription+xml" title="liberdex" href="/opensearch.xml">
+<link rel="preload" href="/static/fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/static/app.css">
+<script src="/static/theme.js"></script>
+</head>
+<body data-view="home">
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="ringGrad" x1="22" y1="12" x2="60" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="var(--mark-ring-a)"/>
+      <stop offset="1" stop-color="var(--mark-ring-b)"/>
+    </linearGradient>
+    <clipPath id="lensClip"><circle cx="40" cy="32" r="12.5"/></clipPath>
+    <symbol id="mark" viewBox="0 0 64 64">
+      <g fill="none" stroke="var(--mark-line)" stroke-width="5.5" stroke-linecap="round">
+        <path d="M7 25H40"/><path d="M7 32H46"/><path d="M7 39H36"/>
+      </g>
+      <g clip-path="url(#lensClip)" fill="none" stroke="var(--mark-lit)" stroke-width="5.5" stroke-linecap="round">
+        <path d="M7 25H40"/><path d="M7 32H46"/><path d="M7 39H36"/>
+      </g>
+      <circle cx="40" cy="32" r="15.5" fill="none" stroke="url(#ringGrad)" stroke-width="6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="shell">
+
+  <header class="masthead">
+    <a class="lockup" href="/" aria-label="liberdex home">
+      <svg class="lockup-mark" viewBox="0 0 64 64" aria-hidden="true"><use href="#mark"/></svg>
+      <span class="wordmark">LIBERDEX</span>
+    </a>
+
+    <form class="lens" id="search" role="search" autocomplete="off">
+      <div class="rails" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="field">
+        <span class="lit" aria-hidden="true"><i></i><i></i><i></i></span>
+        <label class="sr-only" for="q">Search the web</label>
+        <input id="q" name="q" type="search" enterkeyhint="search"
+               spellcheck="false" autocapitalize="off" maxlength="800"
+               placeholder="Search the web">
+        <button class="go" type="submit" aria-label="Search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h11M11 6l6 6-6 6"
+            fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </form>
+
+    <fieldset class="depth" id="depth">
+      <legend class="sr-only">How hard to look</legend>
+      <label><input type="radio" name="depth" value="fast"><span>fast</span></label>
+      <label><input type="radio" name="depth" value="standard" checked><span>standard</span></label>
+      <label><input type="radio" name="depth" value="deep"><span>deep</span></label>
+    </fieldset>
+
+    <div class="tools">
+      <button type="button" id="answer-toggle" class="tool" aria-pressed="true">answer</button>
+      <button type="button" id="theme-toggle" class="tool" aria-label="Switch to light theme">theme</button>
+      <button type="button" id="settings-toggle" class="tool" aria-label="Settings" hidden>settings</button>
+    </div>
+  </header>
+
+  <p class="hint" id="hint" hidden></p>
+
+  <main id="out" aria-live="polite" aria-busy="false"></main>
+
+</div>
+
+<footer class="colophon">
+  <p>self-hosted · no index</p>
+  <details>
+    <summary>Make this your browser's search engine</summary>
+    <div>
+      <p><b>Chrome</b>: this page is already offered. Settings → Search engines →
+      Manage search engines, find <b>liberdex</b>, and choose Make default.</p>
+      <p><b>Firefox</b>: open the address bar's search options and add liberdex,
+      then Settings → Search → Default Search Engine.</p>
+      <p><b>Safari</b>: no OpenSearch support. Point a bookmark keyword at
+      <code id="tmpl">/?q=%s</code> instead.</p>
+    </div>
+  </details>
+</footer>
+
+<dialog id="settings" class="drawer" aria-labelledby="settings-title">
+  <form method="dialog" class="drawer-body" id="settings-form">
+    <header>
+      <h2 id="settings-title">Settings</h2>
+      <button type="button" class="tool" id="settings-close" aria-label="Close">close</button>
+    </header>
+
+    <p class="status" id="s-status"></p>
+
+    <section>
+      <h3>Planner <span class="sub">recalls where the answer lives; wants a fast model</span></h3>
+      <div class="pick">
+        <label>provider
+          <select id="s-planner-profile"></select>
+        </label>
+        <label>model
+          <input id="s-planner-model" list="s-planner-models" autocomplete="off"
+                 spellcheck="false" placeholder="provider default">
+          <datalist id="s-planner-models"></datalist>
+        </label>
+      </div>
+      <p class="keyrow" id="s-planner-key" hidden>
+        <label><span class="env"></span>
+          <input type="password" autocomplete="off" spellcheck="false" placeholder="paste key">
+        </label>
+        <span class="have" hidden>set</span>
+      </p>
+    </section>
+
+    <section>
+      <h3>Answer <span class="sub">reads the pages and writes the answer; wants an accurate one</span></h3>
+      <div class="pick">
+        <label>provider
+          <select id="s-answer-profile"><option value="">same as planner</option></select>
+        </label>
+        <label>model
+          <input id="s-answer-model" list="s-answer-models" autocomplete="off"
+                 spellcheck="false" placeholder="provider default">
+          <datalist id="s-answer-models"></datalist>
+        </label>
+      </div>
+      <p class="keyrow" id="s-answer-key" hidden>
+        <label><span class="env"></span>
+          <input type="password" autocomplete="off" spellcheck="false" placeholder="paste key">
+        </label>
+        <span class="have" hidden>set</span>
+      </p>
+    </section>
+
+    <section id="s-commons" hidden>
+      <h3>Shared plan cache <span class="sub">a question someone already asked skips the planner</span></h3>
+      <p class="note" id="s-commons-note"></p>
+    </section>
+
+    <footer>
+      <button type="submit" class="act-primary" id="s-save">Save</button>
+      <span class="note" id="s-note"></span>
+    </footer>
+  </form>
+</dialog>
+
+<script src="/static/app.js" defer></script>
+</body>
+</html>

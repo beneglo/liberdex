@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>liberdex: the index-free search engine</title>
+<meta name="description" content="Web search without an index and without a search bill. liberdex reads the pages itself. Free inside your agent CLI, about a dollar per thousand searches anywhere else, open source, runs on your machine.">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="https://liberdex.net/">
+<meta property="og:title" content="liberdex: the index-free search engine">
+<meta property="og:description" content="No crawler, no index, no search API bill. Free in your agent CLI, open source, runs on your machine.">
+<meta property="og:url" content="https://liberdex.net/">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="site.css">
+<script>
+try { var t = localStorage.getItem("liberdex.theme");
+  if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="ringGrad" x1="22" y1="12" x2="60" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="var(--mark-ring-a)"/>
+      <stop offset="1" stop-color="var(--mark-ring-b)"/>
+    </linearGradient>
+    <clipPath id="lensClip"><circle cx="40" cy="32" r="12.5"/></clipPath>
+    <symbol id="mark" viewBox="0 0 64 64">
+      <g fill="none" stroke="var(--mark-line)" stroke-width="5.5" stroke-linecap="round">
+        <path d="M7 25H40"/><path d="M7 32H46"/><path d="M7 39H36"/>
+      </g>
+      <g clip-path="url(#lensClip)" fill="none" stroke="var(--mark-lit)" stroke-width="5.5" stroke-linecap="round">
+        <path d="M7 25H40"/><path d="M7 32H46"/><path d="M7 39H36"/>
+      </g>
+      <circle cx="40" cy="32" r="15.5" fill="none" stroke="url(#ringGrad)" stroke-width="6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="lockup" href="#top" aria-label="liberdex">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><use href="#mark"/></svg>
+      <span class="wordmark">LIBERDEX</span>
+    </a>
+    <nav class="nav" id="menu" aria-label="Sections">
+      <a href="#why">why</a>
+      <a href="#install">install</a>
+      <a href="#cost">cost</a>
+      <a href="#configure">set up</a>
+      <a href="https://github.com/beneglo/liberdex/tree/main/docs">docs</a>
+      <a href="https://github.com/beneglo/liberdex">github</a>
+    </nav>
+    <button type="button" class="tool menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="menu">menu</button>
+    <button type="button" class="tool" id="theme">dark</button>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">The index-free search engine</p>
+    <h1>Search the web. Skip the index. Skip the bill.</h1>
+    <p class="lede">Search engines crawl the web and rent you their index by the query. <b>liberdex</b> has no index. It asks a language model where the answer lives, reads those pages itself, and hands you the best of them. Free inside your agent CLI. Open source, and it runs on your machine.</p>
+
+    <div class="demo" id="demo">
+      <form class="lens" id="search" role="search" autocomplete="off">
+        <div class="rails" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="field">
+          <span class="lit" aria-hidden="true"><i></i><i></i><i></i></span>
+          <label class="sr-only" for="q">Pick a recorded search</label>
+          <input id="q" name="q" type="search" spellcheck="false" autocapitalize="off" placeholder="Pick a search below" readonly>
+          <button class="go" type="button" id="replay" aria-label="Play the search again">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h11M11 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </form>
+      <ul class="examples" id="examples" aria-label="Recorded searches"></ul>
+      <div class="serp-wrap">
+        <p class="tally" id="tally"></p>
+        <div id="serp" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="bench" id="measured">
+      <p class="eyebrow">Does it work</p>
+      <h2>Measured against the engines that charge.</h2>
+      <figure class="panel" id="bench">
+        <div class="bench-main">
+          <div class="board">
+            <h3>SimpleQA</h3>
+            <p class="sub">Correct answers on 1,000 questions, in percent</p>
+            <ol class="bars">
+              <li style="--v:93.30;--i:0"><span class="who">Tavily</span><span class="track"><i></i></span><span class="val">93.30</span></li>
+              <li style="--v:85.92;--i:1"><span class="who">Perplexity</span><span class="track"><i></i></span><span class="val">85.92</span></li>
+              <li style="--v:82.15;--i:2"><span class="who">Google-Serper</span><span class="track"><i></i></span><span class="val">82.15</span></li>
+              <li class="us" style="--v:81.70;--i:3"><span class="who"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#mark"/></svg>liberdex</span><span class="track"><i></i></span><span class="val">81.70</span></li>
+              <li style="--v:76.05;--i:4"><span class="who">Brave</span><span class="track"><i></i></span><span class="val">76.05</span></li>
+              <li style="--v:71.24;--i:5"><span class="who">Exa</span><span class="track"><i></i></span><span class="val">71.24</span></li>
+            </ol>
+            <div class="axis" aria-hidden="true"><span></span><span class="ticks"><b style="left:0">0</b><b style="left:25%">25</b><b style="left:50%">50</b><b style="left:75%">75</b><b style="left:100%">100</b></span><span></span></div>
+          </div>
+          <div class="lat">
+            <h3>Latency</h3>
+            <p class="sub">End to end</p>
+            <dl>
+              <div><dt>p50, question to ranked SERP</dt><dd>3.5<small>s</small></dd></div>
+              <div><dt>p90, same run</dt><dd>4.9<small>s</small></dd></div>
+              <div><dt>of that is the rank stage; the rest is planning and fetching</dt><dd>~120<small>ms</small></dd></div>
+            </dl>
+          </div>
+        </div>
+        <figcaption>SimpleQA, 2026-09-02: 1,000 questions from the frozen eval split, answer and grader gpt-4.1 with the prompts from <a href="https://github.com/tavily-ai/tavily-search-evals">tavily-search-evals</a>. The other five scores were run and published there by Tavily, on the full SimpleQA set.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="why">
+  <div class="wrap">
+    <p class="eyebrow">Why</p>
+    <h2>A search engine you can afford to run yourself.</h2>
+    <p class="lead">Nobody had to crawl the web for liberdex to work. The model already knows where things are, and the pages are still there. That takes the expensive part out of search, and most of the bill with it.</p>
+    <div class="why">
+      <div class="card">
+        <h3>Free where you already pay</h3>
+        <p>Inside Claude Code, Codex, Cursor and the rest, the host model names the pages and liberdex reads them. No API key, no second subscription, no search credits to top up.</p>
+      </div>
+      <div class="card">
+        <h3>Cents, not credits</h3>
+        <p>Everywhere else a small, fast model does the naming. About a dollar per thousand searches through OpenRouter, nothing at all with a model on your own machine. The reading is free either way.</p>
+      </div>
+      <div class="card">
+        <h3>Whole pages, not snippets</h3>
+        <p>Results carry passages from the page itself, and the answer at the top is written from those pages and cites them. You see what the model read, not a summary of a summary.</p>
+      </div>
+      <div class="card">
+        <h3>Runs where you run</h3>
+        <p>A laptop, a container, a server you own. There is no account. Your queries go to the sites you search and the model you chose; popular questions share the model's page picks, never the question as typed.</p>
+      </div>
+      <div class="card">
+        <h3>Any language, any script</h3>
+        <p>German compounds, Chinese and Japanese without spaces, Vietnamese tone marks, addresses spelled without accents. Ask in the language you think in and get pages in it.</p>
+      </div>
+      <div class="card">
+        <h3>Yours to keep</h3>
+        <p>Open source under the AGPL. Read it, change it, host it for your team, plug it into claude.ai or ChatGPT as your own connector.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="install">
+  <div class="wrap">
+    <p class="eyebrow">Install</p>
+    <h2>One package, three places to put it.</h2>
+    <p class="lead">Python 3.12 or newer. Not on PyPI yet: <code>uvx</code> and <code>pip</code> take it straight from the repository, nothing else to install. The first search fetches two small ranking models, about 130 MB, once.</p>
+    <div class="ways">
+      <div class="way">
+        <h3>Your agent CLI</h3>
+        <p>One command adds the search and extract tools and the skill that teaches the host to use them well. Run it again later and it changes nothing. Restart the host and search.</p>
+        <pre><b>uvx</b> --from git+https://github.com/beneglo/liberdex \
+    liberdex install claude-code</pre>
+        <ul class="hosts" aria-label="Supported hosts">
+          <li>claude-code</li><li>codex</li><li>opencode</li><li>cursor</li><li>gemini</li><li>hermes</li><li>openclaw</li><li>t3code</li>
+        </ul>
+      </div>
+      <div class="way">
+        <h3>Your browser</h3>
+        <p>A search page on your own machine. Pick a model in the settings drawer: a key for OpenRouter or any compatible endpoint, a local runtime, or the Claude, Codex, Gemini or OpenCode subscription already installed. Nothing on the page talks to a third party.</p>
+        <pre><b>uvx</b> --from git+https://github.com/beneglo/liberdex \
+    liberdex serve --open</pre>
+      </div>
+      <div class="way">
+        <h3>Your server</h3>
+        <p>The same page and a JSON API in one container, ready in seconds. Add keys and allowed origins the day you open the port. Connect claude.ai, Claude Desktop or ChatGPT to it as a custom connector.</p>
+        <pre><b>docker</b> run -p 8080:8080 \
+  -e OPENROUTER_API_KEY=… \
+  ghcr.io/beneglo/liberdex</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="cost">
+  <div class="wrap">
+    <p class="eyebrow">Cost</p>
+    <h2>What a thousand searches cost.</h2>
+    <div class="prices">
+      <div class="price">
+        <span class="v">$0</span>
+        <span class="k">In your agent CLI</span>
+        <p>The host model you already pay for names the pages. liberdex adds no call of its own.</p>
+      </div>
+      <div class="price">
+        <span class="v">$0</span>
+        <span class="k">With a local model</span>
+        <p>Ollama, LM Studio, llama.cpp or vLLM on your own hardware. A small model is enough for this job.</p>
+      </div>
+      <div class="price">
+        <span class="v">~$1</span>
+        <span class="k">With a hosted model</span>
+        <p>A fast, cheap model through OpenRouter or your own provider. The fetching and ranking cost nothing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="configure">
+  <div class="wrap">
+    <p class="eyebrow">Set up</p>
+    <h2>Tell it where you are and who thinks.</h2>
+    <p class="lead">Pick, copy, run. The search page's settings drawer offers the same choices with a mouse. Nothing here leaves your browser.</p>
+    <div class="config">
+      <form class="form" id="config">
+        <fieldset>
+          <legend>Where</legend>
+          <div class="seg">
+            <label><input type="radio" name="where" value="agent" checked><span>agent CLI</span></label>
+            <label><input type="radio" name="where" value="page"><span>browser</span></label>
+            <label><input type="radio" name="where" value="endpoint"><span>server</span></label>
+          </div>
+        </fieldset>
+        <label class="row" data-when="agent">which one
+          <select name="host" id="host"></select>
+        </label>
+        <p class="note" data-when="agent">The host model does the thinking. <b>No key, no second bill.</b></p>
+        <label class="row" id="provider-row">who thinks
+          <select name="provider" id="provider"></select>
+        </label>
+        <label class="row" id="model-row">model, if not the default
+          <input type="text" name="model" id="model" placeholder="">
+        </label>
+        <div data-when="endpoint">
+          <fieldset>
+            <legend>Run it as</legend>
+            <div class="seg">
+              <label><input type="radio" name="run" value="docker" checked><span>container</span></label>
+              <label><input type="radio" name="run" value="uvx"><span>uvx</span></label>
+            </div>
+          </fieldset>
+        </div>
+        <label class="row" data-when="endpoint">keys callers must present (comma-separated)
+          <input type="text" name="keys" placeholder="k1,k2">
+        </label>
+        <label class="row" data-when="endpoint">browser origins allowed
+          <input type="text" name="cors" placeholder="https://app.example">
+        </label>
+        <p class="note" data-when="endpoint">A public liberdex fetches pages for whoever calls it. Read <a href="https://github.com/beneglo/liberdex#responsible-use">responsible use</a> before you open a port.</p>
+      </form>
+      <div class="out">
+        <div class="box">
+          <p class="lab"><span>run</span><button type="button" class="copy" data-copy="#out-run">copy</button></p>
+          <pre id="out-run"></pre>
+        </div>
+        <div class="box">
+          <p class="lab"><span>.env</span><button type="button" class="copy" data-copy="#out-env">copy</button></p>
+          <pre id="out-env"></pre>
+        </div>
+        <p class="then" id="out-then"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <nav aria-label="Elsewhere">
+      <a href="https://github.com/beneglo/liberdex">github</a>
+      <a href="https://github.com/beneglo/liberdex/tree/main/docs">docs</a>
+      <a href="https://github.com/beneglo/liberdex/blob/main/docs/llms.txt">llms.txt</a>
+      <a href="https://github.com/beneglo/liberdex/blob/main/CONTRIBUTING.md">contributing</a>
+      <a href="privacy">privacy</a>
+      <a href="terms">terms</a>
+      <a href="imprint">imprint</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="demo.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

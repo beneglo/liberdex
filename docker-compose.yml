@@ -1,0 +1,24 @@
+services:
+  liberdex:
+    image: ghcr.io/beneglo/liberdex:latest
+    # build: .
+    ports:
+      - "8080:8080"
+    environment:
+      # One key is enough; see .env.example for the rest.
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      LIBERDEX_PLANNER_MODEL: ${LIBERDEX_PLANNER_MODEL:-}
+      LIBERDEX_ANSWER_MODEL: ${LIBERDEX_ANSWER_MODEL:-}
+      # Set these before exposing the port beyond this machine.
+      LIBERDEX_KEYS: ${LIBERDEX_KEYS:-}
+      LIBERDEX_CORS: ${LIBERDEX_CORS:-}
+      LIBERDEX_MAX_INFLIGHT: ${LIBERDEX_MAX_INFLIGHT:-8}
+      # The shared plan cache's key lands in the cache volume's env file on
+      # first use; set it here to reuse one across containers.
+      LIBERDEX_COMMONS_KEY: ${LIBERDEX_COMMONS_KEY:-}
+    volumes:
+      - liberdex-cache:/home/liberdex/.cache/liberdex
+    restart: unless-stopped
+
+volumes:
+  liberdex-cache:

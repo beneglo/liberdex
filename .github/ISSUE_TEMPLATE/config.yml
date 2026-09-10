@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question or idea
+    url: https://github.com/beneglo/liberdex/discussions
+    about: Ask how something works or float an idea in Discussions.
+  - name: Security report
+    url: https://github.com/beneglo/liberdex/security/advisories/new
+    about: Anything exploitable goes through a private advisory, never a public issue.
