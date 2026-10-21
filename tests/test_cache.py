@@ -46,12 +46,14 @@ def _urls(raw: str) -> int:
 
 @pytest.mark.asyncio
 async def test_a_plan_the_caller_could_not_wait_for_still_lands_whole(tmp_path):
-    """Caller leaves after 0.15s with a few URLs; the store gets all nine."""
+    """Caller leaves after 0.3s with a few URLs; the store gets all nine.
+    The first URL is line four, 0.12s in; Windows timers tick at ~15.6ms, so
+    a tighter deadline can close before it."""
     store = PlanStore(str(tmp_path / "plans.sqlite3"))
     inner = SlowPlanner(pace=0.03, min_budget=2.0)
     cp = CachedPlanner(inner, store=store, model="fake")
     got = []
-    async for kind, payload in cp.stream("q", Deadline(0.15)):
+    async for kind, payload in cp.stream("q", Deadline(0.3)):
         if kind == "candidate":
             got.append(payload)
     assert 0 < len(got) < 9, len(got)
