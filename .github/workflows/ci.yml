@@ -24,6 +24,8 @@ jobs:
       - run: uv run ruff check liberdex tests
       - run: uv run pytest -q
       - name: the wheel installs and the CLI answers
+        # pwsh, the Windows default, passes dist/*.whl through unexpanded.
+        shell: bash
         run: |
           uv build
           uv run --isolated --with dist/*.whl --no-project -- liberdex --version
