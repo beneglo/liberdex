@@ -12,6 +12,8 @@ from liberdex import install
 @pytest.fixture()
 def fake_home(tmp_path, monkeypatch):
     monkeypatch.setenv("HOME", str(tmp_path))
+    # expanduser reads USERPROFILE on Windows, never HOME.
+    monkeypatch.setenv("USERPROFILE", str(tmp_path))
     monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path / ".config"))
     # No host CLI on PATH: every installer takes its file-editing branch.
     monkeypatch.setattr(install.shutil, "which", lambda name: None)

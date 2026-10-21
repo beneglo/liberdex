@@ -18,6 +18,7 @@ class Engine(StubEngine):
 @pytest.fixture()
 def home(tmp_path, monkeypatch):
     monkeypatch.setenv("HOME", str(tmp_path))
+    monkeypatch.setenv("USERPROFILE", str(tmp_path))
     monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path / ".config"))
     for k in ("LIBERDEX_PLANNER_MODEL", "LIBERDEX_ANSWER_MODEL",
               "LIBERDEX_SETTINGS", "LIBERDEX_HOST", "OPENROUTER_API_KEY"):
@@ -69,7 +70,8 @@ def test_saving_writes_models_toml_and_the_env_file_and_rebuilds(client, home):
     assert "sk-or-typed" not in toml
     env = (home / ".config" / "liberdex" / "env").read_text()
     assert "OPENROUTER_API_KEY=sk-or-typed" in env
-    assert oct(os.stat(home / ".config" / "liberdex" / "env").st_mode)[-3:] == "600"
+    if os.name != "nt":  # Windows has no owner-only mode bits
+        assert oct(os.stat(home / ".config" / "liberdex" / "env").st_mode)[-3:] == "600"
     assert body["roles"]["planner"]["resolved"] == "openrouter/google/gemini-3.5-flash-lite"
     assert body["roles"]["answer"]["resolved"] == "claude-cli/sonnet"
     assert "sk-or-typed" not in str(body)

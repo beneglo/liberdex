@@ -20,6 +20,7 @@ PLAN = ("I reference\nL de\nR wikipedia: Bochum\n"
 @pytest.fixture(autouse=True)
 def _commons_on(monkeypatch, tmp_path):
     monkeypatch.setenv("HOME", str(tmp_path))
+    monkeypatch.setenv("USERPROFILE", str(tmp_path))
     monkeypatch.setenv("XDG_CONFIG_HOME", str(tmp_path / ".config"))
     monkeypatch.delenv("LIBERDEX_COMMONS_KEY", raising=False)
 
